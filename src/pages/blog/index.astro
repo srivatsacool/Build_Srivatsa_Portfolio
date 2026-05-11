@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import DitherBackground from "../../components/reactbits/dither/DitherBackground.tsx";
+import BlogCard from "../../components/blog/BlogCard.astro";
+
+const allPosts = await getCollection("blog");
+allPosts.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+---
+
+<BaseLayout title="Blog | Srivatsa Gorti">
+  <!-- Background -->
+  <div class="fixed inset-0 z-0">
+    <DitherBackground client:only="react" />
+    <div class="absolute inset-0 bg-black/60"></div>
+  </div>
+
+  <!-- Page Content -->
+  <main class="blog-index relative z-10">
+    <!-- Hero -->
+    <header class="blog-hero" id="blog-hero">
+      <p class="hero-label">Blog</p>
+      <h1 class="hero-title">
+        Thoughts &<br />
+        <span class="hero-accent">Perspectives.</span>
+      </h1>
+      <p class="hero-description">
+        Exploring the intersection of product design, engineering, and creative
+        technology.
+      </p>
+    </header>
+
+    <!-- Posts Grid -->
+    <section class="posts-grid" id="posts-grid">
+      {
+        allPosts.map((post, i) => {
+          const wordCount = (post.body?.split(/\s+/).length || 200);
+          const readTime = `${Math.max(1, Math.ceil(wordCount / 200))} min read`;
+          return (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date.toISOString()}
+              readTime={readTime}
+              tags={post.data.tags || []}
+              slug={post.id}
+              image={post.data.image}
+              index={i}
+            />
+          );
+        })
+      }
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .blog-index {
+    min-height: 100vh;
+    padding-top: 120px;
+    padding-bottom: 6rem;
+  }
+
+  /* Hero Section */
+  .blog-hero {
+    max-width: 900px;
+    margin: 0 auto 4rem;
+    padding: 0 2rem;
+    animation: fadeUp 0.8s ease-out both;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: "Outfit", sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-accent {
+    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-description {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Posts Grid */
+  .posts-grid {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .blog-index {
+      padding-top: 100px;
+    }
+
+    .blog-hero {
+      padding: 0 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .posts-grid {
+      padding: 0 1.25rem;
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

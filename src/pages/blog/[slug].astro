@@ -1,0 +1,854 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import DitherBackground from "../../components/reactbits/dither/DitherBackground.tsx";
+import { components } from "../../components/mdx-components";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+// Get all posts for next/prev navigation
+const allPosts = await getCollection("blog");
+allPosts.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+const currentIndex = allPosts.findIndex((p) => p.id === post.id);
+const nextPost = allPosts[currentIndex + 1];
+const prevPost = allPosts[currentIndex - 1];
+
+// Ensure date is a Date object
+const postData = {
+  ...post.data,
+  date: new Date(post.data.date),
+};
+
+const { Content } = await render(post);
+
+// Calculate reading time
+const wordCount = post.body?.split(/\s+/).length || 200;
+const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+const formattedDate = postData.date.toLocaleDateString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
+---
+
+<BaseLayout title={`${postData.title} | Srivatsa Gorti`}>
+  <!-- Background -->
+  <div class="fixed inset-0 z-0">
+    <DitherBackground client:only="react" />
+    <div class="absolute inset-0 bg-black/60"></div>
+  </div>
+
+  <!-- Scroll Progress Bar -->
+  <div
+    id="progress-bar"
+    class="fixed top-0 left-0 h-[3px] z-[60] w-0 transition-all duration-100"
+    style="background: linear-gradient(90deg, #8b5cf6, #a78bfa); box-shadow: 0 0 12px rgba(139,92,246,0.5);"
+  >
+  </div>
+
+  <!-- Main Content -->
+  <main class="blog-reader relative z-10">
+    <!-- Back Nav -->
+    <nav class="reader-nav">
+      <a href="/blog" class="back-link">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        <span>Back to Blog</span>
+      </a>
+    </nav>
+
+    <!-- Content + TOC Layout -->
+    <div class="reader-layout">
+      <!-- Glass Reader Card -->
+      <article class="reader-card" id="reader-card">
+        <!-- Article Header -->
+        <header class="article-header" id="article-header">
+          <!-- Tags -->
+          {
+            postData.tags && postData.tags.length > 0 && (
+              <div class="article-tags">
+                {postData.tags.map((tag: string) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            )
+          }
+
+          <!-- Title -->
+          <h1 class="article-title">{postData.title}</h1>
+
+          <!-- Description -->
+          <p class="article-description">{postData.description}</p>
+
+          <!-- Meta -->
+          <div class="article-meta">
+            <span class="meta-item">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              {formattedDate}
+            </span>
+            <span class="meta-dot"></span>
+            <span class="meta-item">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              {readingTime} min read
+            </span>
+          </div>
+
+          <!-- Featured Image -->
+          {
+            postData.image && (
+              <div class="article-image">
+                <img src={postData.image} alt={postData.title} />
+              </div>
+            )
+          }
+        </header>
+
+        <!-- Divider -->
+        <div class="header-divider"></div>
+
+        <!-- Article Content -->
+        <div class="article-content" id="article-content">
+          <Content components={components} />
+        </div>
+
+        <!-- Footer -->
+        <footer class="article-footer">
+          <div class="footer-divider"></div>
+
+          <!-- Post Navigation -->
+          <div class="post-nav">
+            {
+              prevPost && (
+                <a href={`/blog/${prevPost.id}`} class="post-nav-link prev">
+                  <span class="nav-label">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="m15 18-6-6 6-6" />
+                    </svg>
+                    Previous
+                  </span>
+                  <span class="nav-title">{prevPost.data.title}</span>
+                </a>
+              )
+            }
+            {
+              nextPost && (
+                <a href={`/blog/${nextPost.id}`} class="post-nav-link next">
+                  <span class="nav-label">
+                    Next
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </span>
+                  <span class="nav-title">{nextPost.data.title}</span>
+                </a>
+              )
+            }
+          </div>
+
+          <div class="footer-cta">
+            <a href="/blog" class="cta-link">
+              <span>Browse all articles</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14m-7-7 7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </footer>
+      </article>
+
+      <!-- TOC Sidebar (desktop: sticky right, mobile: below content) -->
+      <aside class="toc-panel" id="toc-panel">
+        <div class="toc-inner">
+          <h3 class="toc-heading">On this page</h3>
+          <nav class="toc-nav" id="toc-nav">
+            <!-- Populated via JS from article headings -->
+            <p class="toc-empty">Loading contents...</p>
+          </nav>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Back to top -->
+  <button
+    id="back-to-top"
+    class="fixed bottom-8 right-8 w-12 h-12 rounded-full flex items-center justify-center text-white z-50 cursor-pointer opacity-0 translate-y-4 transition-all duration-500"
+    style="background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+</BaseLayout>
+
+<!-- Entrance Animations + TOC Logic -->
+<script>
+  import { gsap } from "gsap";
+
+  // ── Entrance Animations ──
+  window.addEventListener("load", () => {
+    gsap.fromTo(
+      "#article-header",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", delay: 0.15 }
+    );
+    gsap.fromTo(
+      "#article-content",
+      { opacity: 0 },
+      { opacity: 1, duration: 0.8, ease: "power2.out", delay: 0.4 }
+    );
+    gsap.fromTo(
+      "#toc-panel",
+      { opacity: 0, x: 20 },
+      { opacity: 1, x: 0, duration: 0.7, ease: "power2.out", delay: 0.6 }
+    );
+  });
+
+  // ── Build TOC from headings ──
+  function buildTOC() {
+    const content = document.getElementById("article-content");
+    const tocNav = document.getElementById("toc-nav");
+    if (!content || !tocNav) return;
+
+    const headings = content.querySelectorAll("h1, h2, h3");
+    if (headings.length === 0) {
+      tocNav.innerHTML =
+        '<p class="toc-empty-msg">No headings found.</p>';
+      return;
+    }
+
+    let html = "";
+    headings.forEach((heading, i) => {
+      const id = heading.id || `heading-${i}`;
+      heading.id = id;
+      const level = heading.tagName.toLowerCase();
+      const indent = level === "h3" ? " toc-indent" : "";
+      const text = heading.textContent || "";
+      html += `<a href="#${id}" class="toc-link${indent}" data-target="${id}">${text}</a>`;
+    });
+
+    tocNav.innerHTML = html;
+  }
+
+  buildTOC();
+
+  // ── TOC Scroll Spy ──
+  function setupScrollSpy() {
+    const tocLinks = document.querySelectorAll(".toc-link");
+    const headings = document.querySelectorAll(
+      "#article-content h1, #article-content h2, #article-content h3"
+    );
+
+    if (headings.length === 0 || tocLinks.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            tocLinks.forEach((link) => {
+              link.classList.toggle(
+                "toc-active",
+                link.getAttribute("data-target") === id
+              );
+            });
+          }
+        });
+      },
+      {
+        rootMargin: "-80px 0px -70% 0px",
+        threshold: 0,
+      }
+    );
+
+    headings.forEach((h) => observer.observe(h));
+  }
+
+  setupScrollSpy();
+
+  // ── Smooth TOC navigation ──
+  document.querySelectorAll(".toc-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetId = (e.currentTarget as HTMLElement).getAttribute(
+        "data-target"
+      );
+      if (targetId) {
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    });
+  });
+
+  // ── Scroll Progress ──
+  window.addEventListener("scroll", () => {
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+
+    const progressBar = document.getElementById("progress-bar");
+    if (progressBar) progressBar.style.width = scrolled + "%";
+
+    // Back to top visibility
+    const backToTop = document.getElementById("back-to-top");
+    if (backToTop) {
+      if (winScroll > 400) {
+        backToTop.style.opacity = "1";
+        backToTop.style.transform = "translateY(0)";
+      } else {
+        backToTop.style.opacity = "0";
+        backToTop.style.transform = "translateY(16px)";
+      }
+    }
+  });
+
+  // ── Back to top ──
+  document.getElementById("back-to-top")?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+</script>
+
+<style is:global>
+  /* ─── PREMIUM FONTS ─── */
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&family=Bodoni+Moda:ital,wght@1,400..700&display=swap");
+
+  /* ─── BLOG READER PAGE ─── */
+  .blog-reader {
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-bottom: 6rem;
+  }
+
+  /* ─── BACK NAV ─── */
+  .reader-nav {
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    padding: 0 2rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .back-link:hover {
+    color: #fff;
+    background: rgba(139, 92, 246, 0.15);
+    border-color: rgba(139, 92, 246, 0.3);
+    transform: translateX(-4px);
+  }
+
+  /* ─── LAYOUT: Card + TOC ─── */
+  .reader-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* ─── GLASS READER CARD ─── */
+  .reader-card {
+    background: rgba(10, 10, 10, 0.35);
+    backdrop-filter: blur(40px) saturate(1.3);
+    -webkit-backdrop-filter: blur(40px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 2rem;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 40px 120px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+
+  /* ─── ARTICLE HEADER ─── */
+  .article-header {
+    padding: 3rem 3rem 2rem;
+  }
+
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(139, 92, 246, 0.9);
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 100px;
+  }
+
+  .article-title {
+    font-family: "Outfit", sans-serif;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .article-description {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 600px;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .meta-dot {
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+  }
+
+  .article-image {
+    margin-top: 2rem;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .article-image img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.15);
+    transition: filter 0.5s ease;
+  }
+
+  .article-image img:hover {
+    filter: grayscale(0);
+  }
+
+  /* ─── HEADER DIVIDER ─── */
+  .header-divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 20%,
+      rgba(139, 92, 246, 0.15) 50%,
+      rgba(255, 255, 255, 0.08) 80%,
+      transparent 100%
+    );
+  }
+
+  /* ─── ARTICLE CONTENT ─── */
+  .article-content {
+    padding: 3rem;
+    max-width: 720px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.125rem;
+    line-height: 1.8;
+  }
+
+  /* ─── ARTICLE FOOTER ─── */
+  .article-footer {
+    padding: 0 3rem 3rem;
+  }
+
+  .footer-divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(139, 92, 246, 0.3) 50%,
+      transparent 100%
+    );
+    margin-bottom: 2rem;
+  }
+
+  /* ─── POST NAVIGATION ─── */
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .post-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .post-nav-link:hover {
+    background: rgba(139, 92, 246, 0.08);
+    border-color: rgba(139, 92, 246, 0.2);
+  }
+
+  .post-nav-link.next {
+    text-align: right;
+    grid-column: 2;
+  }
+
+  .post-nav-link.prev {
+    grid-column: 1;
+  }
+
+  .nav-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(139, 92, 246, 0.7);
+  }
+
+  .post-nav-link.next .nav-label {
+    justify-content: flex-end;
+  }
+
+  .nav-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-nav-link:hover .nav-title {
+    color: #fff;
+  }
+
+  .footer-cta {
+    text-align: center;
+    padding-top: 1rem;
+  }
+
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .cta-link:hover {
+    color: rgba(139, 92, 246, 0.9);
+  }
+
+  .cta-link:hover svg {
+    transform: translateX(4px);
+  }
+
+  .cta-link svg {
+    transition: transform 0.3s ease;
+  }
+
+  /* ─── TOC PANEL ─── */
+  .toc-panel {
+    position: sticky;
+    top: 110px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+  }
+
+  .toc-inner {
+    background: rgba(10, 10, 10, 0.3);
+    backdrop-filter: blur(30px) saturate(1.2);
+    -webkit-backdrop-filter: blur(30px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .toc-heading {
+    font-family: "Outfit", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .toc-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: all 0.25s ease;
+    line-height: 1.4;
+    border-left: 2px solid transparent;
+  }
+
+  .toc-link:hover {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .toc-link.toc-active {
+    color: rgba(139, 92, 246, 0.9);
+    background: rgba(139, 92, 246, 0.08);
+    border-left-color: rgba(139, 92, 246, 0.6);
+    font-weight: 600;
+  }
+
+  .toc-link.toc-indent {
+    padding-left: 1.5rem;
+    font-size: 0.75rem;
+  }
+
+  .toc-empty {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.2);
+    font-style: italic;
+  }
+
+  .toc-empty-msg {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.2);
+    font-style: italic;
+  }
+
+  /* Custom scrollbar for TOC panel */
+  .toc-panel::-webkit-scrollbar {
+    width: 4px;
+  }
+  .toc-panel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .toc-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+  }
+
+  /* ─── RESPONSIVE: Mobile Stack ─── */
+  @media (max-width: 1024px) {
+    .reader-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .toc-panel {
+      position: static;
+      max-height: none;
+      order: 2; /* Push below the card */
+    }
+
+    .reader-card {
+      order: 1;
+    }
+
+    .toc-inner {
+      border-radius: 1.5rem;
+    }
+
+    .article-header {
+      padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .article-content {
+      padding: 2rem 1.5rem;
+    }
+
+    .article-footer {
+      padding: 0 1.5rem 2rem;
+    }
+
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+
+    .post-nav-link.next {
+      text-align: left;
+      grid-column: 1;
+    }
+
+    .post-nav-link.next .nav-label {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .blog-reader {
+      padding-top: 80px;
+    }
+
+    .reader-nav {
+      padding: 0 1rem;
+    }
+
+    .reader-layout {
+      padding: 0 1rem;
+    }
+
+    .reader-card {
+      border-radius: 1.5rem;
+    }
+
+    .article-header {
+      padding: 1.5rem 1.25rem 1.25rem;
+    }
+
+    .article-content {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .article-footer {
+      padding: 0 1.25rem 1.5rem;
+    }
+  }
+</style>

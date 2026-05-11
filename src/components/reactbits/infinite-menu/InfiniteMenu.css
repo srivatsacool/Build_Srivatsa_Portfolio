@@ -1,0 +1,174 @@
+#infinite-grid-menu-canvas {
+    cursor: grab;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    outline: none;
+    z-index: 10;
+}
+
+#infinite-grid-menu-canvas:active {
+    cursor: grabbing;
+}
+
+/* Wrapper for text content */
+.face-content-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    width: 80%;
+    max-width: 500px;
+    z-index: 20;
+    pointer-events: none;
+    /* Let clicks pass through wrapper areas */
+
+    /* Glass Effect */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: left;
+    overflow: hidden;
+}
+
+/* ... existing wrapper::before ... */
+.face-content-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.08;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+/* ... existing .face-title ... */
+
+.face-title {
+    font-family: 'OffBit-DotBold', sans-serif;
+    /* Assuming custom font */
+    font-size: 4rem;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 1rem;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+    /* Animation state */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.face-title.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition-delay: 0.1s;
+}
+
+.face-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    /* Removed individual background for description as wrapper has it now */
+    padding: 0;
+    border: none;
+    background: transparent;
+    backdrop-filter: none;
+
+    /* Animation state */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.face-description.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition-delay: 0.2s;
+}
+
+/* Action Button */
+.action-button {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 80px;
+    display: grid;
+    place-items: center;
+    background: #5227ff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 20;
+    box-shadow: 0 10px 30px rgba(82, 39, 255, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.action-button:hover {
+    transform: translateX(-50%) scale(1.1) !important;
+    background: #6640ff;
+}
+
+/* ... existing .action-button-icon ... */
+.action-button-icon {
+    font-size: 32px;
+    color: #fff;
+    margin: 0;
+    line-height: 1;
+}
+
+.action-button.active {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.action-button.inactive {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .face-content-wrapper {
+        top: auto;
+        bottom: 120px;
+        /* Space for button at bottom */
+        left: 20px;
+        right: 20px;
+        width: auto;
+        transform: none;
+        max-width: none;
+    }
+
+    .face-title {
+        font-size: 2.5rem;
+    }
+
+    .face-description {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+
+    .action-button {
+        bottom: 30px;
+        right: 50%;
+        transform: translateX(50%) !important;
+    }
+
+    .action-button.active {
+        transform: translateX(50%) scale(1) !important;
+    }
+}

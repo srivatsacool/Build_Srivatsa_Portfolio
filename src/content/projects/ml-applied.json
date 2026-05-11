@@ -1,0 +1,8 @@
+{
+  "title": "Machine Learning Applied",
+  "description": "Application of various Supervised and Unsupervised Machine Learning models on different datasets. Includes regression, classification, clustering, and dimensionality reduction techniques.",
+  "image": "/images/projects/ml-applied.png",
+  "link": "/projects/ml-applied",
+  "tags": ["Scikit-learn", "ML Algorithms", "Data Analysis"],
+  "repoUrl": "https://github.com/srivatsacool/Machine-Learning-Applied"
+}

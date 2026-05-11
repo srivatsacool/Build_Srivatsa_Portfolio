@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CursorOverlay from "../../components/shared/CursorOverlay.jsx";
+import DitherBackground from "../../components/reactbits/dither/DitherBackground.tsx";
+import ProjectsViewManager from "../../components/projects/ProjectsViewManager.tsx";
+import { getProjects } from "../../utils/getProjects";
+import "../../styles/projects-grid.css";
+
+const projects = await getProjects();
+---
+
+<BaseLayout title="Projects | Srivatsa Gorti">
+    <!-- Background -->
+    <div class="fixed inset-0 z-0">
+        <DitherBackground client:only="react" />
+        <div class="absolute inset-0 bg-black/60"></div>
+    </div>
+
+    <!-- Projects View Manager (handles globe ↔ grid toggle) -->
+    <ProjectsViewManager client:only="react" projects={projects} />
+
+    <CursorOverlay client:only="react" />
+</BaseLayout>

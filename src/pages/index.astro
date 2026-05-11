@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DitherBackground from "../components/reactbits/dither/DitherBackground.jsx";
+import HeroText from "../components/home/HeroText.jsx";
+import CTAButtons from "../components/home/CTAButtons.astro";
+---
+
+<BaseLayout title="Srivatsa Gorti | Portfolio">
+	<!-- Background -->
+	<div class="fixed inset-0 z-0">
+		<DitherBackground client:only="react" />
+	</div>
+
+	<!-- Main Content -->
+	<main
+		class="relative z-10 flex flex-col items-center justify-center h-screen w-full px-4 overflow-hidden"
+	>
+		<HeroText client:load />
+		<CTAButtons />
+	</main>
+</BaseLayout>

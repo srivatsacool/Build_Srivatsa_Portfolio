@@ -1,0 +1,8 @@
+{
+  "title": "Automatic License Plate Recognition",
+  "description": "An end-to-end web app of ALPR with OCR. This model automatically detects license plates of cars and reads the number plate using OCR. The main purpose is to catch overspeeding drivers and inform local authorities using the recorded number plate.",
+  "image": "/images/projects/alpr.png",
+  "link": "/projects/alpr",
+  "tags": ["Computer Vision", "OCR", "Python"],
+  "repoUrl": "https://github.com/srivatsacool/Automatic-License-Plate-Recognition"
+}

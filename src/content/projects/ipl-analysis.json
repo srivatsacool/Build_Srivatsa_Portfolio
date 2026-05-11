@@ -1,0 +1,8 @@
+{
+  "title": "IPL (2009-2020) Analysis",
+  "description": "Analyzing IPL cricket data with the help of Tableau. Includes interactive visualizations, player statistics, team performance trends, and match insights.",
+  "image": "/images/projects/ipl-analysis.png",
+  "link": "/projects/ipl-analysis",
+  "tags": ["Tableau", "Data Visualization", "Analytics"],
+  "repoUrl": "https://github.com/srivatsacool/IPL-Analysis"
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Handwritten AlphaNumeric Recognizer",
+  "description": "An end-to-end web app for hand-drawn alphanumeric recognition using CNN. Users can draw letters or numbers on the canvas, and the model predicts/recognizes which letter or number it is with sound effects.",
+  "image": "/images/projects/handwriting.png",
+  "link": "/projects/handwriting-cnn",
+  "tags": ["CNN", "Deep Learning", "TensorFlow"],
+  "repoUrl": "https://github.com/srivatsacool/Handwritten-Alphanumeric-Recognizer-Using-CNN"
+}

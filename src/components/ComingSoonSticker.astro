@@ -1,0 +1,62 @@
+---
+interface Props {
+    pageName: string;
+}
+const { pageName } = Astro.props;
+---
+
+<div class="relative min-h-[80vh] w-full flex items-center justify-center overflow-hidden py-12">
+    <!-- Abstract page wireframe behind the sticker -->
+    <div class="absolute inset-0 flex flex-col justify-start items-center opacity-10 pointer-events-none mt-20 px-8">
+        <h1 class="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-12">{pageName}</h1>
+        <div class="w-full max-w-4xl space-y-6">
+            <div class="h-8 bg-white rounded-md w-3/4"></div>
+            <div class="h-4 bg-white rounded-md w-full"></div>
+            <div class="h-4 bg-white rounded-md w-full"></div>
+            <div class="h-4 bg-white rounded-md w-5/6"></div>
+            <div class="h-4 bg-white rounded-md w-4/6 mt-8"></div>
+        </div>
+    </div>
+
+    <!-- Transparent Angled Sticker -->
+    <div class="group relative z-10 transform -rotate-12 hover:-rotate-3 transition-transform duration-700 ease-out cursor-default">
+        <!-- Sticker Drop Shadow -->
+        <div class="absolute inset-0 bg-black/60 blur-2xl rounded-3xl translate-y-6 translate-x-4"></div>
+        
+        <!-- Sticker Surface (Glassmorphism) -->
+        <div class="relative px-12 py-10 md:px-24 md:py-16 bg-white/10 backdrop-blur-xl border border-white/30 rounded-3xl shadow-[0_8px_32px_rgba(255,255,255,0.1)] overflow-hidden">
+            
+            <!-- Diagonal Glare / Shine Effect -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out"></div>
+            
+            <!-- Tape elements to look like it's stuck on -->
+            <div class="absolute -top-4 -left-8 w-24 h-8 bg-white/20 -rotate-12 backdrop-blur-md shadow-sm border border-white/10"></div>
+            <div class="absolute -bottom-4 -right-8 w-24 h-8 bg-white/20 -rotate-12 backdrop-blur-md shadow-sm border border-white/10"></div>
+            
+            <!-- Sticker Text Content -->
+            <div class="relative flex flex-col items-center">
+                <span class="text-sm md:text-lg font-mono text-white/70 tracking-[0.3em] uppercase mb-2 block">{pageName}</span>
+                <h2 class="text-5xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 tracking-tight drop-shadow-md">
+                    COMING
+                    <br />
+                    SOON
+                </h2>
+                
+                <!-- Barcode or decorative element -->
+                <div class="mt-8 flex gap-1 items-center justify-center h-8 opacity-50">
+                    <div class="w-1 h-full bg-white"></div>
+                    <div class="w-3 h-full bg-white"></div>
+                    <div class="w-1 h-full bg-white"></div>
+                    <div class="w-2 h-full bg-white"></div>
+                    <div class="w-4 h-full bg-white"></div>
+                    <div class="w-1 h-full bg-white"></div>
+                    <div class="w-2 h-full bg-white"></div>
+                    <div class="w-1 h-full bg-white"></div>
+                    <div class="w-3 h-full bg-white"></div>
+                    <div class="w-1 h-full bg-white"></div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

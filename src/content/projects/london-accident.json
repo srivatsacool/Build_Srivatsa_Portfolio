@@ -1,0 +1,8 @@
+{
+  "title": "London Accident Analysis",
+  "description": "Analyzing London accident data with the help of Tableau. Provides insights into accident patterns, hotspots, and contributing factors.",
+  "image": "/images/projects/london-accident.png",
+  "link": "/projects/london-accident",
+  "tags": ["Tableau", "Geospatial Analysis", "BI"],
+  "repoUrl": "https://github.com/srivatsacool/London-Accident-Analysis"
+}

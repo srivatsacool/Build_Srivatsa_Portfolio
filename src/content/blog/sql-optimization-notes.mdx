@@ -1,0 +1,117 @@
+---
+title: "SQL Optimization Notes"
+description: "Essential techniques for writing performant database queries and optimizing slow SQL operations"
+date: "2025-04-22"
+tags: ["Database", "SQL", "Performance", "Backend"]
+image: "/images/blog/sql.png"
+---
+
+# SQL Optimization Notes
+
+A collection of battle-tested techniques for optimizing SQL queries, based on real-world experience with large-scale databases.
+
+## Understanding Query Execution
+
+Before optimizing, it's crucial to understand how your database executes queries. The query optimizer makes decisions based on:
+
+- **Statistics**: Row counts, data distribution
+- **Indexes**: Available lookup paths
+- **Configuration**: Memory limits, parallelism settings
+
+### Using EXPLAIN ANALYZE
+
+```sql
+EXPLAIN ANALYZE
+SELECT u.name, COUNT(o.id) as order_count
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+GROUP BY u.id, u.name
+ORDER BY order_count DESC
+LIMIT 10;
+```
+
+## Indexing Strategies
+
+### Composite Indexes
+
+Order matters! Design indexes based on your query patterns:
+
+```sql
+-- Good: Matches WHERE clause order
+CREATE INDEX idx_orders_user_date 
+ON orders(user_id, created_at);
+
+-- Query that benefits
+SELECT * FROM orders 
+WHERE user_id = 123 
+AND created_at > '2024-01-01';
+```
+
+### Covering Indexes
+
+Include frequently selected columns to avoid table lookups:
+
+```sql
+CREATE INDEX idx_orders_covering 
+ON orders(user_id, created_at) 
+INCLUDE (status, total_amount);
+```
+
+## Common Optimization Patterns
+
+### 1. Avoid SELECT *
+
+```sql
+-- ❌ Bad
+SELECT * FROM orders WHERE user_id = 123;
+
+-- ✅ Good
+SELECT id, status, total_amount FROM orders WHERE user_id = 123;
+```
+
+### 2. Use EXISTS vs IN for Subqueries
+
+```sql
+-- ❌ Slower with large subquery results
+SELECT * FROM users WHERE id IN (SELECT user_id FROM orders);
+
+-- ✅ Faster - stops at first match
+SELECT * FROM users u WHERE EXISTS (
+  SELECT 1 FROM orders o WHERE o.user_id = u.id
+);
+```
+
+### 3. Batch Operations
+
+```sql
+-- ❌ Individual inserts (N round trips)
+INSERT INTO logs (message) VALUES ('log1');
+INSERT INTO logs (message) VALUES ('log2');
+
+-- ✅ Batch insert (1 round trip)
+INSERT INTO logs (message) VALUES ('log1'), ('log2'), ('log3');
+```
+
+## Query Profiling Checklist
+
+- [ ] Check for missing indexes on WHERE/JOIN columns
+- [ ] Look for implicit type conversions
+- [ ] Verify statistics are up-to-date
+- [ ] Consider query result caching
+- [ ] Analyze wait types and blocking
+
+## Performance Metrics to Monitor
+
+| Metric | Target | Tool |
+|--------|--------|------|
+| Query Time | < 100ms | pg_stat_statements |
+| Index Usage | > 90% | pg_stat_user_indexes |
+| Cache Hit Ratio | > 95% | pg_stat_database |
+
+## Conclusion
+
+SQL optimization is an ongoing process. Regular monitoring, understanding your data patterns, and iterative improvement will lead to the best results.
+
+---
+
+*These notes are compiled from years of database optimization experience across PostgreSQL, MySQL, and SQL Server.*

@@ -1,0 +1,51 @@
+---
+import "../styles/globals.css";
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+
+import StaggeredMenu from "../components/reactbits/staggered-menu/StaggeredMenu.tsx";
+
+const menuItems = [
+    { label: "Home", link: "/" },
+    { label: "Projects", link: "/projects" },
+    { label: "Blog", link: "/blog" },
+    { label: "Resume", link: "/resume" },
+    { label: "Contact", link: "/contact" },
+];
+
+const socialItems = [
+    { label: "GitHub", link: "https://github.com/srivatsagorti" },
+    { label: "LinkedIn", link: "https://linkedin.com/in/srivatsagorti" },
+    { label: "Twitter", link: "https://twitter.com/srivatsagorti" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="description"
+            content="Srivatsa Gorti - Portfolio"
+        />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/png" href="/images/logo_icon.png" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+    </head>
+    <body class="bg-black text-white antialiased font-sans">
+        <!-- Navigation -->
+        <StaggeredMenu
+            client:only="react"
+            items={menuItems}
+            socialItems={socialItems}
+            logoUrl="/images/logo-2.png"
+            isFixed={true}
+        />
+        <slot />
+    </body>
+</html>

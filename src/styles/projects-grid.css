@@ -1,0 +1,344 @@
+/* ─── Projects Grid View ─── */
+.projects-grid-page {
+  min-height: 100vh;
+  padding-top: 120px;
+  padding-bottom: 6rem;
+}
+
+/* Hero Section */
+.projects-hero {
+  max-width: 900px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+  animation: projFadeUp 0.8s ease-out both;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.projects-hero .hero-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 1.5rem;
+}
+
+.projects-hero .hero-title {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.projects-hero .hero-accent {
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.projects-hero .hero-description {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Cards Grid */
+.projects-grid {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+/* ─── Project Card Styles (React) ─── */
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 20px;
+  color: inherit;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: projFadeUp 0.6s ease-out forwards;
+  animation-delay: calc(var(--index) * 0.1s);
+  opacity: 0;
+}
+
+.project-card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* Glow */
+.project-card .card-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.5) 0%,
+    rgba(59, 130, 246, 0.5) 50%,
+    rgba(236, 72, 153, 0.5) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+  filter: blur(15px);
+}
+
+.project-card:hover .card-glow {
+  opacity: 0.6;
+}
+
+/* Glass Inner */
+.project-card .card-inner {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.project-card:hover .card-inner {
+  border-color: rgba(139, 92, 246, 0.5);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Image */
+.project-card .card-image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.project-card .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover .card-image img {
+  transform: scale(1.1);
+}
+
+.project-card .image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(11, 14, 20, 0.8) 100%
+  );
+}
+
+/* Content */
+.project-card .card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Tags */
+.project-card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.project-card .tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(139, 92, 246, 1);
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 100px;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover .tag {
+  background: rgba(139, 92, 246, 0.25);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+/* Title */
+.project-card .card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.project-card .title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-card:hover .card-title {
+  text-shadow:
+    0 0 20px rgba(139, 92, 246, 0.8),
+    0 0 40px rgba(139, 92, 246, 0.4);
+}
+
+/* Description */
+.project-card .card-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1.25rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+.project-card:hover .card-description {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Actions */
+.project-card .card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.project-card .action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.project-card .details-link {
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-card .details-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.project-card .github-link {
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-card .github-link:hover {
+  color: #fff;
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.project-card .demo-link {
+  color: rgba(139, 92, 246, 0.9);
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.project-card .demo-link:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.4);
+  color: #fff;
+}
+
+/* ─── Animations ─── */
+@keyframes projFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toggleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .projects-grid-page {
+    padding-top: 100px;
+  }
+
+  .projects-hero {
+    padding: 0 1.25rem;
+    margin-bottom: 3rem;
+  }
+
+  .projects-grid {
+    padding: 0 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  .project-card .card-title {
+    font-size: 1.2rem;
+  }
+
+  .project-card .card-description {
+    font-size: 0.9rem;
+  }
+
+  .project-card .card-image {
+    height: 160px;
+  }
+}
