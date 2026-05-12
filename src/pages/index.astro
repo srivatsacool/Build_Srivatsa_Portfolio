@@ -17,7 +17,20 @@ import CTAButtons from "../components/home/CTAButtons.astro";
 		transition:name="main-content"
 		transition:animate="slide"
 	>
-		<HeroText client:load />
+		<!-- transition:animate="none" lets GSAP fully own this element's animation -->
+		<div transition:animate="none">
+			<HeroText client:load />
+		</div>
 		<CTAButtons />
 	</main>
 </BaseLayout>
+
+<script>
+	// Kill all GSAP tweens on the hero before View Transition starts
+	// This prevents opacity:0 initial state from clashing with the outgoing transition
+	document.addEventListener('astro:before-preparation', () => {
+		if (typeof window !== 'undefined' && window.gsap) {
+			window.gsap.killTweensOf('*');
+		}
+	});
+</script>
