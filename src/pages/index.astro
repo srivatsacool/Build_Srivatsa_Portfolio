@@ -6,14 +6,16 @@ import CTAButtons from "../components/home/CTAButtons.astro";
 ---
 
 <BaseLayout title="Srivatsa Gorti | Portfolio">
-	<!-- Background -->
-	<div class="fixed inset-0 z-0">
+	<!-- Background: transition:persist keeps dither alive across navigations -->
+	<div class="fixed inset-0 z-0" transition:persist>
 		<DitherBackground client:only="react" />
 	</div>
 
 	<!-- Main Content -->
 	<main
 		class="relative z-10 flex flex-col items-center justify-center h-screen w-full px-4 overflow-hidden"
+		transition:name="main-content"
+		transition:animate="slide"
 	>
 		<HeroText client:load />
 		<CTAButtons />

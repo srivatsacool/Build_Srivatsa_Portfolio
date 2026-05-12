@@ -10,14 +10,16 @@ const projects = await getProjects();
 ---
 
 <BaseLayout title="Projects | Srivatsa Gorti">
-    <!-- Background -->
-    <div class="fixed inset-0 z-0">
+    <!-- Background: transition:persist keeps dither alive across navigations -->
+    <div class="fixed inset-0 z-0" transition:persist>
         <DitherBackground client:only="react" />
         <div class="absolute inset-0 bg-black/60"></div>
     </div>
 
     <!-- Projects View Manager (handles globe ↔ grid toggle) -->
-    <ProjectsViewManager client:only="react" projects={projects} />
+    <main transition:name="main-content" transition:animate="slide">
+        <ProjectsViewManager client:only="react" projects={projects} />
+    </main>
 
     <CursorOverlay client:only="react" />
 </BaseLayout>
