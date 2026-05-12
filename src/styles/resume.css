@@ -1,0 +1,48 @@
+/* Resume page styles */
+
+.section-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.025em;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 1.5rem;
+}
+
+/* Initial hidden state for scroll reveal */
+.reveal-section {
+    opacity: 0;
+    transform: translateY(60px);
+}
+
+.reveal-stagger .stagger-child {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+/* Skill pill hover glow */
+.skill-pill:hover {
+    box-shadow: 0 0 12px rgba(255,255,255,0.15);
+}
+
+/* Glass card hover glow */
+.glass-card:hover {
+    box-shadow: 0 8px 40px 0 rgba(255,255,255,0.05), 0 0 0 1px rgba(255,255,255,0.12);
+}
+
+/* Flip card base (education) */
+.flip-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.flip-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+}
+
+/* Ongoing cert pulse */
+@keyframes pulse-border {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
