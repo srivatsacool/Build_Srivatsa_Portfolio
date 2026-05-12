@@ -1,5 +1,6 @@
 ---
 import "../styles/globals.css";
+import { ViewTransitions } from "astro:transitions";
 
 interface Props {
     title: string;
@@ -36,11 +37,14 @@ const socialItems = [
         <link rel="icon" type="image/png" href="/images/logo_icon.png" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
+        <!-- View Transitions: enables smooth page-to-page animations -->
+        <ViewTransitions />
     </head>
     <body class="bg-black text-white antialiased font-sans">
-        <!-- Navigation -->
+        <!-- Navigation: transition:persist prevents re-mount flicker on navigation -->
         <StaggeredMenu
             client:only="react"
+            transition:persist
             items={menuItems}
             socialItems={socialItems}
             logoUrl="/images/logo-2.png"
