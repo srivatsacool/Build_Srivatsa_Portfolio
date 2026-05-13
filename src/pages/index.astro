@@ -6,31 +6,43 @@ import CTAButtons from "../components/home/CTAButtons.astro";
 ---
 
 <BaseLayout title="Srivatsa Gorti | Portfolio">
-	<!-- Background: transition:persist keeps dither alive across navigations -->
-	<div class="fixed inset-0 z-0" transition:persist>
-		<DitherBackground client:only="react" />
-	</div>
+    <!-- Background -->
+    <div class="fixed inset-0 z-0" transition:persist>
+        <DitherBackground client:only="react" />
+    </div>
 
-	<!-- Main Content -->
-	<main
-		class="relative z-10 flex flex-col items-center justify-center h-screen w-full px-4 overflow-hidden"
-		transition:name="main-content"
-		transition:animate="slide"
-	>
-		<!-- transition:animate="none" lets GSAP fully own this element's animation -->
-		<div transition:animate="none">
-			<HeroText client:load />
-		</div>
-		<CTAButtons />
-	</main>
+    <!-- Main Content -->
+    <main
+        class="relative z-10 flex flex-col items-center justify-center min-h-screen w-full px-4 overflow-hidden"
+        transition:name="main-content"
+        transition:animate="slide"
+    >
+        <div transition:animate="none" class="w-full flex flex-col items-center">
+            <HeroText client:load />
+            <CTAButtons />
+        </div>
+
+        <!-- 1. Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 scroll-indicator" style="opacity:0">
+            <span class="text-xs font-medium tracking-widest uppercase" style="color:rgba(255,255,255,0.3)">Scroll</span>
+            <div class="w-px h-8 bg-gradient-to-b from-white/30 to-transparent animate-pulse"></div>
+        </div>
+    </main>
 </BaseLayout>
 
 <script>
-	// Kill all GSAP tweens on the hero before View Transition starts
-	// This prevents opacity:0 initial state from clashing with the outgoing transition
-	document.addEventListener('astro:before-preparation', () => {
-		if (typeof window !== 'undefined' && window.gsap) {
-			window.gsap.killTweensOf('*');
-		}
-	});
+import { gsap } from 'gsap';
+
+// Scroll indicator fades in last
+gsap.fromTo('.scroll-indicator',
+    { opacity: 0, y: 10 },
+    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 3.2 }
+);
+
+// Kill tweens before view transition
+document.addEventListener('astro:before-preparation', () => {
+    if (typeof window !== 'undefined' && window.gsap) {
+        window.gsap.killTweensOf('*');
+    }
+});
 </script>

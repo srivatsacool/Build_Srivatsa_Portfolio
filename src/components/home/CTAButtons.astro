@@ -1,22 +1,54 @@
 ---
-
 ---
 
-<div class="flex gap-4 mt-8 justify-center z-10 relative pointer-events-auto">
-    <a
-        href="/projects"
-        class="group relative px-6 py-3 font-semibold text-white bg-white/10 rounded-full overflow-hidden transition-all hover:scale-105 hover:bg-white/20 backdrop-blur-sm border border-white/10"
-    >
-        <span class="relative z-10">View Projects</span>
-        <div
-            class="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-100 group-hover:bg-white/10"
-        >
-        </div>
-    </a>
-    <a
-        href="/contact"
-        class="group relative px-6 py-3 font-semibold text-black bg-white rounded-full overflow-hidden transition-all hover:scale-105 hover:bg-gray-200"
-    >
-        <span class="relative z-10">Contact Me</span>
-    </a>
+<!-- 6. Upgraded CTA buttons + social row -->
+<div class="flex flex-col items-center gap-4 mt-10 z-10 relative pointer-events-auto hero-cta" style="opacity:0">
+
+    <!-- Button row -->
+    <div class="flex flex-wrap gap-4 justify-center">
+        <!-- Primary -->
+        <a href="/projects"
+            class="group relative px-7 py-3 font-semibold text-black bg-white rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(167,139,250,0.4)]">
+            <span class="relative z-10 flex items-center gap-2">View Projects <span class="transition-transform group-hover:translate-x-1">&rarr;</span></span>
+        </a>
+
+        <!-- Secondary ghost -->
+        <a href="/contact"
+            class="group px-7 py-3 font-semibold text-white rounded-full border border-white/25 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/15 hover:border-white/40">
+            <span class="flex items-center gap-2">Contact Me <span class="transition-transform group-hover:translate-x-1">&nearr;</span></span>
+        </a>
+
+        <!-- Resume ghost -->
+        <a href="/resume"
+            class="group px-7 py-3 font-semibold text-white rounded-full border border-white/15 bg-white/3 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-purple-400/50">
+            <span class="flex items-center gap-2">Resume &darr;</span>
+        </a>
+    </div>
+
+    <!-- Social links row -->
+    <div class="flex items-center gap-6 mt-2">
+        <a href="https://github.com/srivatsagorti" target="_blank"
+            class="text-sm font-medium transition-all hover:text-white hover:scale-105" style="color:rgba(255,255,255,0.4)">
+            GitHub
+        </a>
+        <span style="color:rgba(255,255,255,0.15)">|</span>
+        <a href="https://linkedin.com/in/srivatsagorti" target="_blank"
+            class="text-sm font-medium transition-all hover:text-white hover:scale-105" style="color:rgba(255,255,255,0.4)">
+            LinkedIn
+        </a>
+        <span style="color:rgba(255,255,255,0.15)">|</span>
+        <a href="https://www.hackerrank.com/profile/srivatsagorti" target="_blank"
+            class="text-sm font-medium transition-all hover:text-white hover:scale-105" style="color:rgba(255,255,255,0.4)">
+            HackerRank
+        </a>
+    </div>
 </div>
+
+<script>
+import { gsap } from 'gsap';
+// Fade in CTA after hero text
+gsap.fromTo('.hero-cta',
+    { y: 20, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 2.7 }
+);
+</script>
