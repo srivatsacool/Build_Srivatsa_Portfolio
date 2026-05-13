@@ -1,69 +1,61 @@
 /* Resume page styles */
 
 .section-title {
-    font-size: 1.875rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 800;
     color: white;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 1.75rem;
 }
 
 /* Main glass panel wrapping all resume content */
 .resume-glass-panel {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 24px 64px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 24px 80px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.07);
 }
 
-/* Initial hidden state for scroll reveal */
+/* Scroll reveal initial states */
 .reveal-section {
     opacity: 0;
     transform: translateY(60px);
 }
 
-.reveal-stagger .stagger-child {
-    opacity: 0;
-    transform: translateY(40px);
-}
-
 /* Skill pill hover glow */
 .skill-pill:hover {
-    box-shadow: 0 0 12px rgba(255,255,255,0.15);
+    box-shadow: 0 0 14px rgba(255,255,255,0.2);
 }
 
 /* Glass card hover glow */
 .glass-card:hover {
-    box-shadow: 0 8px 40px 0 rgba(255,255,255,0.05), 0 0 0 1px rgba(255,255,255,0.12);
+    box-shadow: 0 8px 40px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(255,255,255,0.15);
 }
 
-/* Education card left border lift */
+/* Education card hover lift */
 .flip-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .flip-card:hover {
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 56px rgba(0,0,0,0.5);
 }
 
-/* Proficiency bar animation on scroll */
+/* Proficiency bar */
 .proficiency-bar {
-    width: 0% !important;
-    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.proficiency-bar.animate {
-    width: var(--target-width) !important;
+    width: 0;
+    transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Section dot nav scale transition */
+/* Section dot nav */
 .section-dot {
     transition: transform 0.2s ease, background 0.2s ease;
 }
 
-/* Recruiter overlay flex centering */
+/* Recruiter overlay */
 #recruiter-overlay {
     display: none;
 }

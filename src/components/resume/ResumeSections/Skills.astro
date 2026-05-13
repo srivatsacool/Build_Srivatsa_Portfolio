@@ -2,49 +2,49 @@
 const skillGroups = [
     {
         label: "Data Science / ML / Deep Learning",
-        icon: "🤖",
-        accent: "border-blue-400/40",
-        pillAccent: "hover:border-blue-400/60 hover:bg-blue-400/10 hover:shadow-blue-400/20",
+        icon: "\ud83e\udd16",
+        accent: "border-blue-400/50",
+        pillAccent: "hover:border-blue-400/70 hover:bg-blue-400/15 hover:shadow-blue-400/20",
         proficiency: 85,
         skills: ["Python", "Supervised Learning", "Unsupervised Learning", "ANN", "CNN", "Computer Vision", "NLP"]
     },
     {
         label: "Mathematics for ML & DL",
-        icon: "📐",
-        accent: "border-purple-400/40",
-        pillAccent: "hover:border-purple-400/60 hover:bg-purple-400/10 hover:shadow-purple-400/20",
+        icon: "\ud83d\udcd0",
+        accent: "border-purple-400/50",
+        pillAccent: "hover:border-purple-400/70 hover:bg-purple-400/15 hover:shadow-purple-400/20",
         proficiency: 80,
         skills: ["Algebra", "Probability", "Statistics", "Calculus", "Matrix"]
     },
     {
         label: "Python Packages",
-        icon: "🐍",
-        accent: "border-amber-400/40",
-        pillAccent: "hover:border-amber-400/60 hover:bg-amber-400/10 hover:shadow-amber-400/20",
+        icon: "\ud83d\udc0d",
+        accent: "border-amber-400/50",
+        pillAccent: "hover:border-amber-400/70 hover:bg-amber-400/15 hover:shadow-amber-400/20",
         proficiency: 90,
         skills: ["Pandas", "Scikit-learn", "TensorFlow", "Keras", "SciPy", "OpenCV", "NumPy", "Streamlit", "Seaborn", "Matplotlib", "Plotly"]
     },
     {
         label: "Web Development",
-        icon: "🌐",
-        accent: "border-green-400/40",
-        pillAccent: "hover:border-green-400/60 hover:bg-green-400/10 hover:shadow-green-400/20",
+        icon: "\ud83c\udf10",
+        accent: "border-green-400/50",
+        pillAccent: "hover:border-green-400/70 hover:bg-green-400/15 hover:shadow-green-400/20",
         proficiency: 70,
         skills: ["HTML", "CSS", "SASS", "JavaScript", "Flask", "SQL"]
     },
     {
         label: "Programming Languages",
-        icon: "💻",
-        accent: "border-rose-400/40",
-        pillAccent: "hover:border-rose-400/60 hover:bg-rose-400/10 hover:shadow-rose-400/20",
+        icon: "\ud83d\udcbb",
+        accent: "border-rose-400/50",
+        pillAccent: "hover:border-rose-400/70 hover:bg-rose-400/15 hover:shadow-rose-400/20",
         proficiency: 88,
         skills: ["Python", "C", "C++", "HTML", "CSS", "SASS", "JavaScript", "SQL"]
     },
     {
         label: "Data Visualization Tools",
-        icon: "📊",
-        accent: "border-orange-400/40",
-        pillAccent: "hover:border-orange-400/60 hover:bg-orange-400/10 hover:shadow-orange-400/20",
+        icon: "\ud83d\udcca",
+        accent: "border-orange-400/50",
+        pillAccent: "hover:border-orange-400/70 hover:bg-orange-400/15 hover:shadow-orange-400/20",
         proficiency: 92,
         skills: ["Tableau", "Power BI", "Plotly", "Google Analytics"]
     },
@@ -52,20 +52,19 @@ const skillGroups = [
 ---
 <section class="reveal-section">
     <h2 class="section-title">Skills</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 reveal-stagger">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-6">
         {skillGroups.map((group) => (
-            <div class={`stagger-child glass-card p-6 border-t-2 ${group.accent}`}>
+            <div class={`glass-card p-6 border-t-2 ${group.accent}`}>
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="text-xl">{group.icon}</span>
-                    <h3 class="text-white font-semibold text-sm">{group.label}</h3>
+                    <span class="text-2xl">{group.icon}</span>
+                    <h3 class="text-white font-semibold text-base">{group.label}</h3>
                 </div>
-                <!-- Proficiency bar -->
-                <div class="w-full h-1 bg-white/10 rounded-full mb-4 overflow-hidden">
-                    <div class="proficiency-bar h-full rounded-full bg-white/50 transition-all duration-1000" style={`width: ${group.proficiency}%`}></div>
+                <div class="w-full h-1.5 bg-white/10 rounded-full mb-4 overflow-hidden">
+                    <div class="proficiency-bar h-full rounded-full bg-white/60" style={`--target-width: ${group.proficiency}%`}></div>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     {group.skills.map(skill => (
-                        <span class={`skill-pill px-3 py-1 text-xs rounded-full bg-white/5 border border-white/10 text-gray-200 transition-all cursor-default ${group.pillAccent}`}>{skill}</span>
+                        <span class={`skill-pill px-3 py-1.5 text-sm rounded-full bg-white/8 border border-white/15 text-gray-100 font-medium transition-all cursor-default ${group.pillAccent}`}>{skill}</span>
                     ))}
                 </div>
             </div>

@@ -3,39 +3,39 @@
 <section class="reveal-section">
     <h2 class="section-title">Experience</h2>
     <div class="glass-card p-8 mt-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <div>
-                <h3 class="text-xl font-bold text-white">Business Analyst Intern</h3>
-                <p class="text-gray-400">Healthium Medtech Limited</p>
+                <h3 class="text-2xl font-bold text-white">Business Analyst Intern</h3>
+                <p class="text-gray-200 text-lg mt-1">Healthium Medtech Limited</p>
             </div>
-            <span class="text-sm text-gray-500 mt-2 md:mt-0 border border-white/10 px-3 py-1 rounded-full">Mar 2023 – Aug 2023</span>
+            <span class="text-base text-gray-300 mt-3 md:mt-0 border border-white/20 px-4 py-1.5 rounded-full">Mar 2023 &ndash; Aug 2023</span>
         </div>
 
-        <!-- Fixed KPI row: 70% / 60 min / 5 months -->
-        <div class="grid grid-cols-3 gap-4 mb-6 reveal-stagger">
-            <div class="stagger-child text-center p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-4xl font-bold text-white count-up" data-target="70" data-suffix="%">0%</div>
-                <p class="text-xs text-gray-400 mt-1">Reduction in data gathering time</p>
+        <!-- KPI row -->
+        <div class="grid grid-cols-3 gap-4 mb-8">
+            <div class="text-center p-5 rounded-xl bg-white/8 border border-white/15">
+                <div class="text-5xl font-bold text-white count-up" data-target="70" data-suffix="%">0%</div>
+                <p class="text-sm text-gray-300 mt-2 leading-snug">Reduction in data<br/>gathering time</p>
             </div>
-            <div class="stagger-child text-center p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-4xl font-bold text-white count-up" data-target="60" data-suffix=" min">0 min</div>
-                <p class="text-xs text-gray-400 mt-1">Daily saved via automation</p>
+            <div class="text-center p-5 rounded-xl bg-white/8 border border-white/15">
+                <div class="text-5xl font-bold text-white count-up" data-target="60" data-suffix=" min">0 min</div>
+                <p class="text-sm text-gray-300 mt-2 leading-snug">Daily saved via<br/>automation</p>
             </div>
-            <div class="stagger-child text-center p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="text-4xl font-bold text-white">5 mo</div>
-                <p class="text-xs text-gray-400 mt-1">Internship duration</p>
+            <div class="text-center p-5 rounded-xl bg-white/8 border border-white/15">
+                <div class="text-5xl font-bold text-white">5 mo</div>
+                <p class="text-sm text-gray-300 mt-2 leading-snug">Internship<br/>duration</p>
             </div>
         </div>
 
-        <ul class="space-y-3 text-gray-300 text-sm reveal-stagger">
-            <li class="stagger-child flex gap-2"><span class="text-white mt-1">→</span> Automated SAP-HANA data extraction using Python, Excel &amp; SQL — cutting 70% of data gathering time.</li>
-            <li class="stagger-child flex gap-2"><span class="text-white mt-1">→</span> Built real-time updating Power BI &amp; Excel dashboards for data-driven decision making.</li>
-            <li class="stagger-child flex gap-2"><span class="text-white mt-1">→</span> Automated daily report mailing to all department heads via Microsoft Automate — saving 60 min/day.</li>
+        <ul class="space-y-4 text-gray-100 text-base">
+            <li class="flex gap-3"><span class="text-white font-bold mt-0.5">&rarr;</span> Automated SAP-HANA data extraction using Python, Excel &amp; SQL &mdash; cutting <strong class="text-white">70%</strong> of data gathering time.</li>
+            <li class="flex gap-3"><span class="text-white font-bold mt-0.5">&rarr;</span> Built real-time updating Power BI &amp; Excel dashboards for data-driven decision making.</li>
+            <li class="flex gap-3"><span class="text-white font-bold mt-0.5">&rarr;</span> Automated daily report mailing to all department heads via Microsoft Automate &mdash; saving <strong class="text-white">60 min/day</strong>.</li>
         </ul>
 
         <div class="flex flex-wrap gap-2 mt-6">
             {["SAP-HANA", "Python", "SQL", "Excel", "Power BI", "Microsoft Automate"].map(tag => (
-                <span class="px-3 py-1 text-xs rounded-full bg-white/10 border border-white/10 text-gray-300">{tag}</span>
+                <span class="px-4 py-1.5 text-sm rounded-full bg-white/10 border border-white/20 text-white font-medium">{tag}</span>
             ))}
         </div>
     </div>

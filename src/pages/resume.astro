@@ -12,22 +12,22 @@ import "../styles/resume.css";
 ---
 
 <BaseLayout title="Resume | Srivatsa Gorti">
-    <!-- Dither background persisted across navigation -->
+    <!-- Dither background -->
     <div class="fixed inset-0 z-0" transition:persist>
         <DitherBackground client:only="react" />
-        <div class="absolute inset-0 bg-black/65"></div>
+        <div class="absolute inset-0 bg-black/70"></div>
     </div>
 
     <main class="relative z-10 min-h-screen text-white" transition:name="main-content" transition:animate="slide">
 
-        <!-- Sticky scroll progress bar -->
-        <div id="resume-progress" class="fixed top-0 left-0 h-[2px] bg-white z-50 transition-all duration-100" style="width:0%"></div>
+        <!-- Scroll progress bar -->
+        <div id="resume-progress" class="fixed top-0 left-0 h-[3px] bg-white z-50" style="width:0%"></div>
 
-        <!-- Sticky section dot-nav (right side) -->
+        <!-- Sticky dot nav -->
         <nav id="section-nav" class="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-4">
             {["profile","experience","education","skills","projects","achievements","certifications"].map(id => (
                 <a href={`#${id}`} data-section={id}
-                    class="section-dot w-2 h-2 rounded-full border border-white/40 bg-transparent transition-all duration-300 hover:bg-white"
+                    class="section-dot w-2.5 h-2.5 rounded-full border border-white/50 bg-transparent transition-all duration-300 hover:bg-white"
                     title={id.charAt(0).toUpperCase() + id.slice(1)}
                 ></a>
             ))}
@@ -36,48 +36,48 @@ import "../styles/resume.css";
         <!-- Recruiter Mode Toggle -->
         <div class="fixed bottom-6 right-6 z-40">
             <button id="recruiter-toggle"
-                class="px-4 py-2 text-xs font-semibold rounded-full border border-white/30 bg-black/60 backdrop-blur text-white hover:bg-white hover:text-black transition-all">
-                🎯 Recruiter View
+                class="px-5 py-2.5 text-sm font-semibold rounded-full border border-white/30 bg-black/60 backdrop-blur text-white hover:bg-white hover:text-black transition-all">
+                &#127919; Recruiter View
             </button>
         </div>
 
         <!-- Recruiter Snapshot Overlay -->
-        <div id="recruiter-overlay" class="hidden fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl flex items-center justify-center p-6">
+        <div id="recruiter-overlay" class="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl items-center justify-center p-6">
             <div class="glass-card max-w-lg w-full p-8 text-center space-y-6">
-                <h2 class="text-3xl font-bold text-white">Srivatsa Gorti</h2>
-                <p class="text-gray-300">PGDM @ WeSchool &bull; Business Analyst &bull; Data Storyteller</p>
+                <h2 class="text-4xl font-bold text-white">Srivatsa Gorti</h2>
+                <p class="text-gray-200 text-lg">PGDM @ WeSchool &bull; Business Analyst &bull; Data Storyteller</p>
                 <div class="grid grid-cols-3 gap-4">
-                    <div class="p-3 rounded-xl bg-white/5 border border-white/10">
-                        <div class="text-3xl font-bold text-white">70%</div>
-                        <p class="text-xs text-gray-400 mt-1">Data time saved</p>
+                    <div class="p-4 rounded-xl bg-white/8 border border-white/15">
+                        <div class="text-4xl font-bold text-white">70%</div>
+                        <p class="text-sm text-gray-300 mt-1">Data time saved</p>
                     </div>
-                    <div class="p-3 rounded-xl bg-white/5 border border-white/10">
-                        <div class="text-3xl font-bold text-white">60 min</div>
-                        <p class="text-xs text-gray-400 mt-1">Daily automated</p>
+                    <div class="p-4 rounded-xl bg-white/8 border border-white/15">
+                        <div class="text-4xl font-bold text-white">60 min</div>
+                        <p class="text-sm text-gray-300 mt-1">Daily automated</p>
                     </div>
-                    <div class="p-3 rounded-xl bg-white/5 border border-white/10">
-                        <div class="text-3xl font-bold text-white">5 mo</div>
-                        <p class="text-xs text-gray-400 mt-1">@ Healthium</p>
+                    <div class="p-4 rounded-xl bg-white/8 border border-white/15">
+                        <div class="text-4xl font-bold text-white">5 mo</div>
+                        <p class="text-sm text-gray-300 mt-1">@ Healthium</p>
                     </div>
                 </div>
-                <div class="text-sm text-gray-300 space-y-1">
-                    <p>🏢 Business Analyst Intern — Healthium Medtech</p>
-                    <p>🎓 PGDM (RBA) — WeSchool, Mumbai</p>
-                    <p>🥇 Rank 1 @ IIM Mumbai &bull; 🥈 2nd @ IIT Mandi</p>
+                <div class="text-base text-gray-200 space-y-2">
+                    <p>&#127970; Business Analyst Intern &mdash; Healthium Medtech</p>
+                    <p>&#127891; PGDM (RBA) &mdash; WeSchool, Mumbai</p>
+                    <p>&#129351; Rank 1 @ IIM Mumbai &bull; &#129352; 2nd @ IIT Mandi</p>
                 </div>
                 <div class="flex gap-3 justify-center">
                     <a href="/Srivatsa-Gorti-Resume-Final.pdf" download
-                        class="px-6 py-2 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition text-sm">Download PDF ↓</a>
+                        class="px-7 py-2.5 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition text-base">Download PDF &darr;</a>
                     <a href="https://linkedin.com/in/srivatsagorti" target="_blank"
-                        class="px-6 py-2 border border-white/30 rounded-full hover:bg-white/10 transition text-sm">LinkedIn ↗</a>
+                        class="px-7 py-2.5 border border-white/30 rounded-full hover:bg-white/10 transition text-base">LinkedIn &nearr;</a>
                 </div>
-                <button id="close-recruiter" class="text-xs text-gray-500 hover:text-white transition mt-2">✕ Close</button>
+                <button id="close-recruiter" class="text-sm text-gray-400 hover:text-white transition mt-2">&times; Close</button>
             </div>
         </div>
 
         <!-- Main glass panel -->
         <div class="max-w-4xl mx-auto px-4 pt-28 pb-24">
-            <div class="resume-glass-panel rounded-3xl p-8 md:p-12 space-y-24">
+            <div class="resume-glass-panel rounded-3xl p-8 md:p-14 space-y-28">
                 <div id="profile"><Profile /></div>
                 <div id="experience"><Experience /></div>
                 <div id="education"><Education /></div>
@@ -102,71 +102,70 @@ window.addEventListener('scroll', () => {
     if (bar) bar.style.width = (scrolled * 100) + '%';
 });
 
-// Reveal all sections
-gsap.utils.toArray('.reveal-section').forEach((el) => {
-    gsap.fromTo(el as Element,
+// Reveal sections on scroll
+document.querySelectorAll('.reveal-section').forEach((el) => {
+    gsap.fromTo(el,
         { opacity: 0, y: 60 },
         { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-          scrollTrigger: { trigger: el as Element, start: 'top 85%', toggleActions: 'play none none none' } }
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' } }
     );
 });
 
-// Stagger children
-gsap.utils.toArray('.reveal-stagger').forEach((container) => {
-    const children = (container as Element).querySelectorAll('.stagger-child');
-    gsap.fromTo(children,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: 'power3.out',
-          scrollTrigger: { trigger: container as Element, start: 'top 85%', toggleActions: 'play none none none' } }
-    );
-});
-
-// Counter animation
+// Count-up animation — runs immediately when element enters viewport
 document.querySelectorAll('.count-up').forEach((el) => {
-    const target = parseInt((el as HTMLElement).dataset.target || '0');
+    const htmlEl = el as HTMLElement;
+    const target = parseInt(htmlEl.dataset.target || '0');
+    const suffix = htmlEl.dataset.suffix || '';
+    let triggered = false;
+
     ScrollTrigger.create({
-        trigger: el as Element, start: 'top 90%',
+        trigger: htmlEl,
+        start: 'top 92%',
         onEnter: () => {
-            gsap.fromTo({ val: 0 }, { val: target, duration: 1.5, ease: 'power2.out',
-                onUpdate: function() {
-                    (el as HTMLElement).textContent = Math.round(this.targets()[0].val) + ((el as HTMLElement).dataset.suffix || '');
-                }
+            if (triggered) return;
+            triggered = true;
+            const obj = { val: 0 };
+            gsap.to(obj, {
+                val: target,
+                duration: 1.8,
+                ease: 'power2.out',
+                onUpdate: () => { htmlEl.textContent = Math.round(obj.val) + suffix; }
             });
         }
     });
 });
 
-// Sticky dot nav active state
-const sections = document.querySelectorAll('[data-section]');
-const dots = document.querySelectorAll('.section-dot');
-const sectionIds = ['profile','experience','education','skills','projects','achievements','certifications'];
-
-ScrollTrigger.create({
-    trigger: 'body', start: 'top top', end: 'bottom bottom',
-    onUpdate: (self) => {
-        const scrollY = window.scrollY + window.innerHeight / 2;
-        sectionIds.forEach(id => {
-            const el = document.getElementById(id);
-            const dot = document.querySelector(`.section-dot[data-section="${id}"]`);
-            if (!el || !dot) return;
-            const top = el.offsetTop;
-            const bottom = top + el.offsetHeight;
-            if (scrollY >= top && scrollY < bottom) {
-                dot.classList.add('bg-white', 'scale-150');
-                dot.classList.remove('bg-transparent');
-            } else {
-                dot.classList.remove('bg-white', 'scale-150');
-                dot.classList.add('bg-transparent');
-            }
-        });
-    }
+// Proficiency bars — animate width when visible
+document.querySelectorAll('.proficiency-bar').forEach((el) => {
+    const bar = el as HTMLElement;
+    const targetWidth = bar.style.getPropertyValue('--target-width') || '0%';
+    ScrollTrigger.create({
+        trigger: bar,
+        start: 'top 90%',
+        onEnter: () => { bar.style.width = targetWidth; }
+    });
 });
 
-// Recruiter mode toggle
+// Dot nav active state
+const sectionIds = ['profile','experience','education','skills','projects','achievements','certifications'];
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY + window.innerHeight / 2;
+    sectionIds.forEach(id => {
+        const section = document.getElementById(id);
+        const dot = document.querySelector(`.section-dot[data-section="${id}"]`);
+        if (!section || !dot) return;
+        const inView = scrollY >= section.offsetTop && scrollY < section.offsetTop + section.offsetHeight;
+        dot.classList.toggle('bg-white', inView);
+        dot.classList.toggle('scale-150', inView);
+        dot.classList.toggle('bg-transparent', !inView);
+    });
+});
+
+// Recruiter mode
 const toggle = document.getElementById('recruiter-toggle');
 const overlay = document.getElementById('recruiter-overlay');
 const closeBtn = document.getElementById('close-recruiter');
-toggle?.addEventListener('click', () => overlay?.classList.toggle('hidden'));
-closeBtn?.addEventListener('click', () => overlay?.classList.add('hidden'));
-overlay?.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.add('hidden'); });
+toggle?.addEventListener('click', () => overlay?.classList.toggle('show'));
+closeBtn?.addEventListener('click', () => overlay?.classList.remove('show'));
+overlay?.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
 </script>

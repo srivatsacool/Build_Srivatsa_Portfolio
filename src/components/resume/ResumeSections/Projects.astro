@@ -2,7 +2,7 @@
 const projects = [
     {
         title: "Automatic License Plate Recognition",
-        period: "Jun 2023 – Jun 2024",
+        period: "Jun 2023 \u2013 Jun 2024",
         description: "End-to-end ALPR system using image processing and OCR to detect and read vehicle license plates from images/video streams in real time.",
         highlights: [
             "Plate localization via edge detection & contour analysis with OpenCV",
@@ -10,11 +10,11 @@ const projects = [
             "Deployed real-time app with Streamlit for traffic monitoring"
         ],
         tags: ["Python", "OpenCV", "EasyOCR", "Streamlit"],
-        icon: "🚗"
+        icon: "\ud83d\ude97"
     },
     {
         title: "Hand-drawn Alphanumeric Recognition",
-        period: "Jun 2023 – Jun 2024",
+        period: "Jun 2023 \u2013 Jun 2024",
         description: "Child-friendly deep learning recognition system evaluating how kids draw letters and numbers, with focus on accuracy and engagement.",
         highlights: [
             "Built with Python, Pandas, NumPy and deep learning",
@@ -22,11 +22,11 @@ const projects = [
             "Visualized recognition performance and learning progress"
         ],
         tags: ["Python", "Deep Learning", "Pandas", "Streamlit", "Matplotlib"],
-        icon: "✏️"
+        icon: "\u270f\ufe0f"
     },
     {
         title: "London Accident Analysis",
-        period: "Jun 2023 – Jun 2024",
+        period: "Jun 2023 \u2013 Jun 2024",
         description: "Exploratory data analysis on London traffic accident datasets to uncover trends in frequency, severity, and contributing factors.",
         highlights: [
             "EDA with Python Pandas & NumPy",
@@ -34,31 +34,31 @@ const projects = [
             "Correlated accidents with weather and road conditions"
         ],
         tags: ["Python", "Tableau", "Pandas", "NumPy"],
-        icon: "🗺️"
+        icon: "\ud83d\uddfa\ufe0f"
     },
 ];
 ---
 <section class="reveal-section">
     <h2 class="section-title">Projects</h2>
-    <div class="space-y-4 mt-6 reveal-stagger">
+    <div class="space-y-5 mt-6">
         {projects.map((project) => (
-            <div class="stagger-child glass-card p-6 hover:border-white/30 transition-all group">
-                <div class="flex items-start justify-between mb-3">
+            <div class="glass-card p-7 hover:border-white/40 transition-all group">
+                <div class="flex items-start justify-between mb-4">
                     <div class="flex items-center gap-3">
-                        <span class="text-2xl">{project.icon}</span>
-                        <h3 class="text-lg font-bold text-white group-hover:text-gray-100">{project.title}</h3>
+                        <span class="text-3xl">{project.icon}</span>
+                        <h3 class="text-xl font-bold text-white">{project.title}</h3>
                     </div>
-                    <span class="text-xs text-gray-500 border border-white/10 px-2 py-1 rounded-full whitespace-nowrap ml-2">{project.period}</span>
+                    <span class="text-sm text-gray-300 border border-white/20 px-3 py-1 rounded-full whitespace-nowrap ml-3">{project.period}</span>
                 </div>
-                <p class="text-gray-400 text-sm mb-4">{project.description}</p>
-                <ul class="space-y-1 mb-4">
+                <p class="text-gray-200 text-base mb-4">{project.description}</p>
+                <ul class="space-y-2 mb-5">
                     {project.highlights.map(h => (
-                        <li class="text-gray-300 text-sm flex gap-2"><span class="text-white">→</span>{h}</li>
+                        <li class="text-gray-100 text-base flex gap-2"><span class="text-white font-bold">&rarr;</span>{h}</li>
                     ))}
                 </ul>
                 <div class="flex flex-wrap gap-2">
                     {project.tags.map(tag => (
-                        <span class="px-2 py-1 text-xs rounded-full bg-white/10 border border-white/10 text-gray-400">{tag}</span>
+                        <span class="px-3 py-1 text-sm rounded-full bg-white/10 border border-white/20 text-gray-100 font-medium">{tag}</span>
                     ))}
                 </div>
             </div>
