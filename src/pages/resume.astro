@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import DitherBackground from "../components/reactbits/dither/DitherBackground.jsx";
+import DitherBackground from "../components/reactbits/dither/DitherBackground.tsx";
 import Profile from "../components/resume/ResumeSections/Profile.astro";
 import Experience from "../components/resume/ResumeSections/Experience.astro";
 import Education from "../components/resume/ResumeSections/Education.astro";
@@ -12,19 +12,19 @@ import "../styles/resume.css";
 ---
 
 <BaseLayout title="Resume | Srivatsa Gorti">
-    <!-- Dither background -->
+    <!-- Exact same dither + overlay as blog: bg-black/60 -->
     <div class="fixed inset-0 z-0" transition:persist>
         <DitherBackground client:only="react" />
-        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="absolute inset-0 bg-black/60"></div>
     </div>
 
-    <main class="relative z-10 min-h-screen text-white" transition:name="main-content" transition:animate="slide">
+    <main class="relative z-10 min-h-screen text-white">
 
         <!-- Scroll progress bar -->
         <div id="resume-progress" class="fixed top-0 left-0 h-[3px] bg-white z-50" style="width:0%"></div>
 
         <!-- Sticky dot nav -->
-        <nav id="section-nav" class="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-4">
+        <nav class="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-4">
             {["profile","experience","education","skills","projects","achievements","certifications"].map(id => (
                 <a href={`#${id}`} data-section={id}
                     class="section-dot w-2.5 h-2.5 rounded-full border border-white/50 bg-transparent transition-all duration-300 hover:bg-white"
@@ -36,31 +36,31 @@ import "../styles/resume.css";
         <!-- Recruiter Mode Toggle -->
         <div class="fixed bottom-6 right-6 z-40">
             <button id="recruiter-toggle"
-                class="px-5 py-2.5 text-sm font-semibold rounded-full border border-white/30 bg-black/60 backdrop-blur text-white hover:bg-white hover:text-black transition-all">
+                class="px-5 py-2.5 text-sm font-semibold rounded-full border border-white/30 bg-black/60 backdrop-blur-sm text-white hover:bg-white hover:text-black transition-all">
                 &#127919; Recruiter View
             </button>
         </div>
 
         <!-- Recruiter Snapshot Overlay -->
-        <div id="recruiter-overlay" class="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl items-center justify-center p-6">
+        <div id="recruiter-overlay" class="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl items-center justify-center p-6" style="display:none">
             <div class="glass-card max-w-lg w-full p-8 text-center space-y-6">
                 <h2 class="text-4xl font-bold text-white">Srivatsa Gorti</h2>
-                <p class="text-gray-200 text-lg">PGDM @ WeSchool &bull; Business Analyst &bull; Data Storyteller</p>
+                <p class="text-lg" style="color: rgba(255,255,255,0.7)">PGDM @ WeSchool &bull; Business Analyst &bull; Data Storyteller</p>
                 <div class="grid grid-cols-3 gap-4">
-                    <div class="p-4 rounded-xl bg-white/8 border border-white/15">
+                    <div class="p-4 rounded-xl" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12)">
                         <div class="text-4xl font-bold text-white">70%</div>
-                        <p class="text-sm text-gray-300 mt-1">Data time saved</p>
+                        <p class="text-sm mt-1" style="color:rgba(255,255,255,0.6)">Data time saved</p>
                     </div>
-                    <div class="p-4 rounded-xl bg-white/8 border border-white/15">
+                    <div class="p-4 rounded-xl" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12)">
                         <div class="text-4xl font-bold text-white">60 min</div>
-                        <p class="text-sm text-gray-300 mt-1">Daily automated</p>
+                        <p class="text-sm mt-1" style="color:rgba(255,255,255,0.6)">Daily automated</p>
                     </div>
-                    <div class="p-4 rounded-xl bg-white/8 border border-white/15">
+                    <div class="p-4 rounded-xl" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12)">
                         <div class="text-4xl font-bold text-white">5 mo</div>
-                        <p class="text-sm text-gray-300 mt-1">@ Healthium</p>
+                        <p class="text-sm mt-1" style="color:rgba(255,255,255,0.6)">@ Healthium</p>
                     </div>
                 </div>
-                <div class="text-base text-gray-200 space-y-2">
+                <div class="text-base space-y-2" style="color:rgba(255,255,255,0.75)">
                     <p>&#127970; Business Analyst Intern &mdash; Healthium Medtech</p>
                     <p>&#127891; PGDM (RBA) &mdash; WeSchool, Mumbai</p>
                     <p>&#129351; Rank 1 @ IIM Mumbai &bull; &#129352; 2nd @ IIT Mandi</p>
@@ -71,21 +71,19 @@ import "../styles/resume.css";
                     <a href="https://linkedin.com/in/srivatsagorti" target="_blank"
                         class="px-7 py-2.5 border border-white/30 rounded-full hover:bg-white/10 transition text-base">LinkedIn &nearr;</a>
                 </div>
-                <button id="close-recruiter" class="text-sm text-gray-400 hover:text-white transition mt-2">&times; Close</button>
+                <button id="close-recruiter" class="text-sm hover:text-white transition" style="color:rgba(255,255,255,0.4)">&times; Close</button>
             </div>
         </div>
 
-        <!-- Main glass panel -->
-        <div class="max-w-4xl mx-auto px-4 pt-28 pb-24">
-            <div class="resume-glass-panel rounded-3xl p-8 md:p-14 space-y-28">
-                <div id="profile"><Profile /></div>
-                <div id="experience"><Experience /></div>
-                <div id="education"><Education /></div>
-                <div id="skills"><Skills /></div>
-                <div id="projects"><Projects /></div>
-                <div id="achievements"><Achievements /></div>
-                <div id="certifications"><Certifications /></div>
-            </div>
+        <!-- Content: no double-blur wrapper, cards sit directly on dither like blog -->
+        <div class="resume-content">
+            <div id="profile"><Profile /></div>
+            <div id="experience"><Experience /></div>
+            <div id="education"><Education /></div>
+            <div id="skills"><Skills /></div>
+            <div id="projects"><Projects /></div>
+            <div id="achievements"><Achievements /></div>
+            <div id="certifications"><Certifications /></div>
         </div>
     </main>
 </BaseLayout>
@@ -95,77 +93,64 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
-// Scroll progress bar
 window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
     const bar = document.getElementById('resume-progress');
-    if (bar) bar.style.width = (scrolled * 100) + '%';
+    if (bar) bar.style.width = (pct * 100) + '%';
 });
 
-// Reveal sections on scroll
 document.querySelectorAll('.reveal-section').forEach((el) => {
     gsap.fromTo(el,
-        { opacity: 0, y: 60 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
           scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' } }
     );
 });
 
-// Count-up animation — runs immediately when element enters viewport
 document.querySelectorAll('.count-up').forEach((el) => {
     const htmlEl = el as HTMLElement;
     const target = parseInt(htmlEl.dataset.target || '0');
     const suffix = htmlEl.dataset.suffix || '';
     let triggered = false;
-
     ScrollTrigger.create({
-        trigger: htmlEl,
-        start: 'top 92%',
+        trigger: htmlEl, start: 'top 92%',
         onEnter: () => {
             if (triggered) return;
             triggered = true;
             const obj = { val: 0 };
-            gsap.to(obj, {
-                val: target,
-                duration: 1.8,
-                ease: 'power2.out',
+            gsap.to(obj, { val: target, duration: 1.8, ease: 'power2.out',
                 onUpdate: () => { htmlEl.textContent = Math.round(obj.val) + suffix; }
             });
         }
     });
 });
 
-// Proficiency bars — animate width when visible
 document.querySelectorAll('.proficiency-bar').forEach((el) => {
     const bar = el as HTMLElement;
-    const targetWidth = bar.style.getPropertyValue('--target-width') || '0%';
+    const tw = getComputedStyle(bar).getPropertyValue('--target-width').trim() || '0%';
     ScrollTrigger.create({
-        trigger: bar,
-        start: 'top 90%',
-        onEnter: () => { bar.style.width = targetWidth; }
+        trigger: bar, start: 'top 90%',
+        onEnter: () => { bar.style.width = tw; }
     });
 });
 
-// Dot nav active state
 const sectionIds = ['profile','experience','education','skills','projects','achievements','certifications'];
 window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY + window.innerHeight / 2;
+    const mid = window.scrollY + window.innerHeight / 2;
     sectionIds.forEach(id => {
-        const section = document.getElementById(id);
+        const sec = document.getElementById(id);
         const dot = document.querySelector(`.section-dot[data-section="${id}"]`);
-        if (!section || !dot) return;
-        const inView = scrollY >= section.offsetTop && scrollY < section.offsetTop + section.offsetHeight;
-        dot.classList.toggle('bg-white', inView);
-        dot.classList.toggle('scale-150', inView);
-        dot.classList.toggle('bg-transparent', !inView);
+        if (!sec || !dot) return;
+        const active = mid >= sec.offsetTop && mid < sec.offsetTop + sec.offsetHeight;
+        dot.classList.toggle('bg-white', active);
+        dot.classList.toggle('scale-150', active);
     });
 });
 
-// Recruiter mode
 const toggle = document.getElementById('recruiter-toggle');
 const overlay = document.getElementById('recruiter-overlay');
 const closeBtn = document.getElementById('close-recruiter');
-toggle?.addEventListener('click', () => overlay?.classList.toggle('show'));
-closeBtn?.addEventListener('click', () => overlay?.classList.remove('show'));
-overlay?.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+toggle?.addEventListener('click', () => { if (overlay) overlay.style.display = overlay.style.display === 'flex' ? 'none' : 'flex'; });
+closeBtn?.addEventListener('click', () => { if (overlay) overlay.style.display = 'none'; });
+overlay?.addEventListener('click', (e) => { if (e.target === overlay && overlay) overlay.style.display = 'none'; });
 </script>
