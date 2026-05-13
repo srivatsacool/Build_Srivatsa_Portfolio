@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getProjects } from "../../utils/getProjects";
 import DitherBackground from "../../components/reactbits/dither/DitherBackground.tsx";
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
     const projects = await getProjects();
@@ -45,7 +46,14 @@ const hasLong = project.longDescription && project.longDescription !== project.s
             <!-- LEFT: Image -->
             <div class="split-image">
                 {project.image
-                    ? <img src={project.image} alt={project.title} class="hero-img" loading="eager" />
+                    ? <Image 
+                        src={project.image} 
+                        alt={project.title} 
+                        width={1200} 
+                        height={675} 
+                        class="hero-img" 
+                        loading="eager" 
+                      />
                     : <div class="hero-img-placeholder"></div>
                 }
                 <div class="img-vignette"></div>

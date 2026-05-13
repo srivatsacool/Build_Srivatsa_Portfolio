@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 interface Props {
     title: string;
     description: string;
@@ -32,7 +34,13 @@ const {
         {
             image && (
                 <div class="card-image">
-                    <img src={image} alt={title} loading="lazy" />
+                    <Image 
+                        src={image} 
+                        alt={title} 
+                        width={800} 
+                        height={450} 
+                        loading="lazy"
+                    />
                     <div class="image-overlay" />
                 </div>
             )

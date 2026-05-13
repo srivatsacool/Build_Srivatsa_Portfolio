@@ -8,6 +8,8 @@ interface Props {
 const { title } = Astro.props;
 
 import StaggeredMenu from "../components/reactbits/staggered-menu/StaggeredMenu.tsx";
+import { Image } from "astro:assets";
+import logoImg from "../assets/images/logo.png";
 
 const menuItems = [
     { label: "Home", link: "/" },
@@ -43,9 +45,19 @@ const socialItems = [
             client:only="react"
             items={menuItems}
             socialItems={socialItems}
-            logoUrl="/images/logo-2.png"
             isFixed={true}
-        />
+        >
+            <a href="/" class="sm-logo-link">
+                <Image 
+                    src={logoImg} 
+                    alt="Srivatsa Gorti Logo" 
+                    class="sm-logo-img" 
+                    width={110} 
+                    height={32}
+                    loading="eager"
+                />
+            </a>
+        </StaggeredMenu>
         <slot />
     </body>
 </html>

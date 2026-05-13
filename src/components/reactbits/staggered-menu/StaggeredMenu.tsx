@@ -30,6 +30,7 @@ interface StaggeredMenuProps {
   closeOnClickAway?: boolean;
   onMenuOpen?: () => void;
   onMenuClose?: () => void;
+  children?: React.ReactNode;
 }
 
 export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
@@ -48,7 +49,8 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   isFixed = false,
   closeOnClickAway = true,
   onMenuOpen,
-  onMenuClose
+  onMenuClose,
+  children
 }) => {
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
@@ -403,16 +405,18 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         aria-label="Main navigation header"
       >
         <div className="sm-logo" aria-label="Logo">
-          <a href="/">
-            <img
-              src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
-              alt="Logo"
-              className="sm-logo-img"
-              draggable={false}
-              width={110}
-              height={24}
-            />
-          </a>
+          {children ? children : (
+            <a href="/">
+              <img
+                src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
+                alt="Logo"
+                className="sm-logo-img"
+                draggable={false}
+                width={110}
+                height={24}
+              />
+            </a>
+          )}
         </div>
 
         {textLines.length > 0 && typeof window !== 'undefined' && window.location.pathname !== '/' && (

@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection, render } from "astro:content";
 import DitherBackground from "../../components/reactbits/dither/DitherBackground.tsx";
 import { components } from "../../components/mdx-components";
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -147,7 +148,13 @@ const formattedDate = postData.date.toLocaleDateString("en-US", {
           {
             postData.image && (
               <div class="article-image">
-                <img src={postData.image} alt={postData.title} />
+                <Image 
+                  src={postData.image} 
+                  alt={postData.title} 
+                  width={1200} 
+                  height={675}
+                  loading="eager"
+                />
               </div>
             )
           }
