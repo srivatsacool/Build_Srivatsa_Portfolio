@@ -1,10 +1,95 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ComingSoonSticker from "../components/ComingSoonSticker.astro";
+import Profile from "../components/resume/ResumeSections/Profile.astro";
+import Experience from "../components/resume/ResumeSections/Experience.astro";
+import Education from "../components/resume/ResumeSections/Education.astro";
+import Skills from "../components/resume/ResumeSections/Skills.astro";
+import Projects from "../components/resume/ResumeSections/Projects.astro";
+import Achievements from "../components/resume/ResumeSections/Achievements.astro";
+import Certifications from "../components/resume/ResumeSections/Certifications.astro";
+import "../styles/resume.css";
 ---
 
 <BaseLayout title="Resume | Srivatsa Gorti">
-    <main class="container mx-auto px-4 py-8">
-        <ComingSoonSticker pageName="Resume" />
+    <main class="relative z-10 min-h-screen text-white" transition:name="main-content" transition:animate="slide">
+
+        <!-- Sticky scroll progress bar -->
+        <div id="resume-progress" class="fixed top-0 left-0 h-[2px] bg-white z-50 transition-all duration-100" style="width:0%"></div>
+
+        <div class="max-w-4xl mx-auto px-4 pt-28 pb-24 space-y-32">
+            <Profile />
+            <Experience />
+            <Education />
+            <Skills />
+            <Projects />
+            <Achievements />
+            <Certifications />
+
+            <!-- Download CTA -->
+            <section class="text-center py-16 reveal-section">
+                <h2 class="text-3xl font-bold mb-4 text-white">Let&apos;s build something together</h2>
+                <p class="text-gray-400 mb-8">Open to internships, collaborations, and full-time roles.</p>
+                <div class="flex gap-4 justify-center flex-wrap">
+                    <a href="/Srivatsa-Gorti-Resume-Final.pdf" download
+                        class="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-all hover:scale-105">
+                        Download PDF ↓
+                    </a>
+                    <a href="https://linkedin.com/in/srivatsagorti" target="_blank"
+                        class="px-8 py-3 border border-white/30 rounded-full hover:bg-white/10 transition-all hover:scale-105">
+                        LinkedIn ↗
+                    </a>
+                </div>
+            </section>
+        </div>
     </main>
 </BaseLayout>
+
+<script>
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
+// Scroll progress bar
+window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    const bar = document.getElementById('resume-progress');
+    if (bar) bar.style.width = (scrolled * 100) + '%';
+});
+
+// Reveal all sections
+gsap.utils.toArray('.reveal-section').forEach((el) => {
+    gsap.fromTo(el as Element,
+        { opacity: 0, y: 60 },
+        {
+            opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+            scrollTrigger: { trigger: el as Element, start: 'top 85%', toggleActions: 'play none none none' }
+        }
+    );
+});
+
+// Stagger children inside reveal-stagger containers
+gsap.utils.toArray('.reveal-stagger').forEach((container) => {
+    const children = (container as Element).querySelectorAll('.stagger-child');
+    gsap.fromTo(children,
+        { opacity: 0, y: 40 },
+        {
+            opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: 'power3.out',
+            scrollTrigger: { trigger: container as Element, start: 'top 85%', toggleActions: 'play none none none' }
+        }
+    );
+});
+
+// Counter animation for stat numbers
+document.querySelectorAll('.count-up').forEach((el) => {
+    const target = parseInt((el as HTMLElement).dataset.target || '0');
+    ScrollTrigger.create({
+        trigger: el as Element,
+        start: 'top 90%',
+        onEnter: () => {
+            gsap.fromTo({ val: 0 }, { val: target, duration: 1.5, ease: 'power2.out',
+                onUpdate: function() { (el as HTMLElement).textContent = Math.round(this.targets()[0].val) + ((el as HTMLElement).dataset.suffix || ''); }
+            });
+        }
+    });
+});
+</script>

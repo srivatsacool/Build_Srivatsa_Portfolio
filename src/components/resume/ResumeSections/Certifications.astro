@@ -1,0 +1,29 @@
+---
+const certs = [
+    { title: "KPMG Data Analytics Consulting", issuer: "Forge", status: "Completed", icon: "📋" },
+    { title: "Power BI by PwC", issuer: "Forge", status: "Completed", icon: "📊" },
+    { title: "TATA Data Visualisation", issuer: "Forge", status: "Completed", icon: "📈" },
+    { title: "Bloomberg Market Concepts (BMC)", issuer: "Bloomberg", status: "Ongoing", icon: "💹" },
+];
+---
+<section class="reveal-section">
+    <h2 class="section-title">Certifications</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 reveal-stagger">
+        {certs.map((cert) => (
+            <div class="stagger-child glass-card p-6 hover:border-white/30 transition-all">
+                <div class="flex items-start justify-between">
+                    <div class="flex gap-3 items-start">
+                        <span class="text-2xl">{cert.icon}</span>
+                        <div>
+                            <h3 class="text-white font-semibold text-sm">{cert.title}</h3>
+                            <p class="text-gray-400 text-xs mt-1">{cert.issuer}</p>
+                        </div>
+                    </div>
+                    <span class={`text-xs px-2 py-1 rounded-full border ${ cert.status === 'Ongoing' ? 'border-yellow-400/40 text-yellow-300 bg-yellow-400/10 animate-pulse' : 'border-green-400/40 text-green-300 bg-green-400/10' }`}>
+                        {cert.status}
+                    </span>
+                </div>
+            </div>
+        ))}
+    </div>
+</section>
