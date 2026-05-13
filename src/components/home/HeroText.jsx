@@ -6,6 +6,7 @@ const TYPE_SPEED = 70;
 const DELETE_SPEED = 40;
 const PAUSE_AFTER = 1800;
 const PAUSE_BEFORE = 400;
+const INITIAL_DELAY = 2600;
 
 const HeroText = () => {
   const wrapperRef = useRef(null);
@@ -16,35 +17,66 @@ const HeroText = () => {
   const statsRef = useRef(null);
 
   const [displayed, setDisplayed] = useState('');
-  const [roleIdx, setRoleIdx] = useState(0);
-  const [phase, setPhase] = useState('wait');
+
+  // All loop state in refs — never triggers re-render
+  const roleIdxRef = useRef(0);
+  const timeoutRef = useRef(null);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
-    let timeout;
-    const current = ROLES[roleIdx];
+    mountedRef.current = true;
 
-    if (phase === 'wait') {
-      timeout = setTimeout(() => setPhase('typing'), 2600);
-    } else if (phase === 'typing') {
-      if (displayed.length < current.length) {
-        timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), TYPE_SPEED);
-      } else {
-        timeout = setTimeout(() => setPhase('holding'), PAUSE_AFTER);
-      }
-    } else if (phase === 'holding') {
-      timeout = setTimeout(() => setPhase('deleting'), PAUSE_BEFORE);
-    } else if (phase === 'deleting') {
-      if (displayed.length > 0) {
-        timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), DELETE_SPEED);
-      } else {
-        const next = (roleIdx + 1) % ROLES.length;
-        setRoleIdx(next);
-        timeout = setTimeout(() => setPhase('typing'), PAUSE_BEFORE);
-      }
-    }
-    return () => clearTimeout(timeout);
-  }, [phase, displayed, roleIdx]);
+    const type = (text, onDone) => {
+      let i = 0;
+      const tick = () => {
+        if (!mountedRef.current) return;
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i < text.length) {
+          timeoutRef.current = setTimeout(tick, TYPE_SPEED);
+        } else {
+          timeoutRef.current = setTimeout(onDone, PAUSE_AFTER);
+        }
+      };
+      timeoutRef.current = setTimeout(tick, TYPE_SPEED);
+    };
 
+    const erase = (text, onDone) => {
+      let i = text.length;
+      const tick = () => {
+        if (!mountedRef.current) return;
+        i--;
+        setDisplayed(text.slice(0, i));
+        if (i > 0) {
+          timeoutRef.current = setTimeout(tick, DELETE_SPEED);
+        } else {
+          timeoutRef.current = setTimeout(onDone, PAUSE_BEFORE);
+        }
+      };
+      timeoutRef.current = setTimeout(tick, DELETE_SPEED);
+    };
+
+    const loop = () => {
+      if (!mountedRef.current) return;
+      const role = ROLES[roleIdxRef.current];
+      type(role, () => {
+        erase(role, () => {
+          roleIdxRef.current = (roleIdxRef.current + 1) % ROLES.length;
+          loop();
+        });
+      });
+    };
+
+    // Start after initial delay so GSAP name animation finishes first
+    timeoutRef.current = setTimeout(loop, INITIAL_DELAY);
+
+    return () => {
+      mountedRef.current = false;
+      clearTimeout(timeoutRef.current);
+    };
+  }, []); // empty deps — runs once only
+
+  // Entry animations
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
     tl
