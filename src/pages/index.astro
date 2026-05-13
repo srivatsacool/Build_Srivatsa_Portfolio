@@ -6,9 +6,10 @@ import CTAButtons from "../components/home/CTAButtons.astro";
 ---
 
 <BaseLayout title="Srivatsa Gorti | Portfolio">
-    <!-- Background -->
+    <!-- Background with overlay matching blog/projects -->
     <div class="fixed inset-0 z-0" transition:persist>
         <DitherBackground client:only="react" />
+        <div class="absolute inset-0 bg-black/55"></div>
     </div>
 
     <!-- Main Content -->
@@ -21,25 +22,10 @@ import CTAButtons from "../components/home/CTAButtons.astro";
             <HeroText client:load />
             <CTAButtons />
         </div>
-
-        <!-- 1. Scroll indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 scroll-indicator" style="opacity:0">
-            <span class="text-xs font-medium tracking-widest uppercase" style="color:rgba(255,255,255,0.3)">Scroll</span>
-            <div class="w-px h-8 bg-gradient-to-b from-white/30 to-transparent animate-pulse"></div>
-        </div>
     </main>
 </BaseLayout>
 
 <script>
-import { gsap } from 'gsap';
-
-// Scroll indicator fades in last
-gsap.fromTo('.scroll-indicator',
-    { opacity: 0, y: 10 },
-    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 3.2 }
-);
-
-// Kill tweens before view transition
 document.addEventListener('astro:before-preparation', () => {
     if (typeof window !== 'undefined' && window.gsap) {
         window.gsap.killTweensOf('*');
