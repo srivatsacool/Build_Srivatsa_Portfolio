@@ -10,6 +10,15 @@
     margin-bottom: 1.5rem;
 }
 
+/* Main glass panel wrapping all resume content */
+.resume-glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 24px 64px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
 /* Initial hidden state for scroll reveal */
 .reveal-section {
     opacity: 0;
@@ -31,18 +40,33 @@
     box-shadow: 0 8px 40px 0 rgba(255,255,255,0.05), 0 0 0 1px rgba(255,255,255,0.12);
 }
 
-/* Flip card base (education) */
+/* Education card left border lift */
 .flip-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .flip-card:hover {
     transform: translateY(-4px) scale(1.02);
     box-shadow: 0 16px 48px rgba(0,0,0,0.4);
 }
 
-/* Ongoing cert pulse */
-@keyframes pulse-border {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+/* Proficiency bar animation on scroll */
+.proficiency-bar {
+    width: 0% !important;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.proficiency-bar.animate {
+    width: var(--target-width) !important;
+}
+
+/* Section dot nav scale transition */
+.section-dot {
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+/* Recruiter overlay flex centering */
+#recruiter-overlay {
+    display: none;
+}
+#recruiter-overlay.show {
+    display: flex;
 }
